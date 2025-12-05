@@ -1,46 +1,100 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Calculator</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
 
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Calculator</title>
-  <link rel="stylesheet" href="style.css">
-</head>
-
-<body>
-  <div class="calculator">
-    <div class="display">&nbsp;</div>
-    <div class="buttons">
-      <div class="row">
-        <button class="number" id="number-7">7</button>
-        <button class="number" id="number-8">8</button>
-        <button class="number" id="number-9">9</button>
-      </div>
-      <div class="row">
-        <button class="number" id="number-4">4</button>
-        <button class="number" id="number-5">5</button>
-        <button class="number" id="number-6">6</button>
-      </div>
-      <div class="row">
-        <button class="number" id="number-1">1</button>
-        <button class="number" id="number-2">2</button>
-        <button class="number" id="number-3">3</button>
-      </div>
-      <div class="row operations">
-        <!-- <button id="add">+</button>
-        <button id="subtract">-</button>
-        <button id="multiply">*</button>
-        <button id="divide">/</button> -->
-      </div>
-      <div class="row last-row">
-        <button id="clear">C</button>
-        <button class="number" id="number-0">0</button>
-        <button id="equal">=</button>
+  <body>
+    <div class="calculator">
+      <div class="display">&nbsp;</div>
+      <div class="buttons">
+        <div class="row">
+          <button class="number" id="number-7">7</button>
+          <button class="number" id="number-8">8</button>
+          <button class="number" id="number-9">9</button>
+        </div>
+        <div class="row">
+          <button class="number" id="number-4">4</button>
+          <button class="number" id="number-5">5</button>
+          <button class="number" id="number-6">6</button>
+        </div>
+        <div class="row">
+          <button class="number" id="number-1">1</button>
+          <button class="number" id="number-2">2</button>
+          <button class="number" id="number-3">3</button>
+        </div>
+        <div class="row operations">
+          <button class="sign" id="add">+</button>
+          <button class="sign" id="subtract">-</button>
+          <button class="sign" id="multiply">*</button>
+          <button class="sign" id="divide">/</button>
+        </div>
+        <div class="row last-row">
+          <button id="clear">C</button>
+          <button class="number" id="number-0">0</button>
+          <button id="equal">=</button>
+        </div>
       </div>
     </div>
-  </div>
-  <script src="script.js"></script>
-</body>
 
+    <script>
+      const clear = document.querySelector("#clear");
+      const numbers = document.querySelectorAll(".number");
+      const display = document.querySelector(".display");
+      const operators = document.querySelectorAll(".sign");
+      const equal = document.querySelector("#equal");
+      let x = 0;
+      let y = 0;
+      let z = 0;
+      let sign = null;
+
+      numbers.forEach((number) => {
+        number.addEventListener("click", () => {
+          if (sign) {
+            y = y * 10 + parseInt(number.textContent);
+          } else {
+            x = x * 10 + parseInt(number.textContent);
+          }
+          display.textContent += number.textContent;
+        });
+      });
+
+      clear.addEventListener("click", () => {
+        display.innerHTML = "&nbsp;";
+        x = 0;
+        y = 0;
+        sign = null;
+      });
+
+      operators.forEach((operator) => {
+        operator.addEventListener("click", () => {
+          if (sign == null) {
+            sign = operator.textContent;
+            display.textContent += operator.textContent;
+          }
+        });
+      });
+
+      equal.addEventListener("click", () => {
+        if (sign == "+") {
+          z = x + y;
+        } else if (sign == "-") {
+          z = x - y;
+        } else if (sign == "*") {
+          z = x * y;
+        } else if (sign == "/") {
+          if (y == 0) {
+            z = "MATH ERROR";
+          } else {
+            z = x / y;
+          }
+        }
+        display.textContent = z;
+      });
+    </script>
+    <!-- <script src="script.js"></script> -->
+  </body>
 </html>
